@@ -7,7 +7,6 @@ import (
 	"net/http/cookiejar"
 	"net/url"
 	"strings"
-	"time"
 )
 
 const (
