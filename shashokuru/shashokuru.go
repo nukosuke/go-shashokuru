@@ -18,11 +18,19 @@ const (
 type Shashokuru struct {
 	url    string
 	client *http.Client
+	Bento  *BentoService
 }
 
 func NewClient() *Shashokuru {
 	jar, _ := cookiejar.New(nil)
-	return &Shashokuru{url: URL, client: &http.Client{Jar: jar}}
+	client := &http.Client{Jar: jar}
+	bento := NewBentoService(client)
+
+	return &Shashokuru{
+		url:    URL,
+		client: client,
+		Bento:  bento,
+	}
 }
 
 func (this *Shashokuru) Login(email string, password string) error {
@@ -52,30 +60,6 @@ func (this *Shashokuru) Login(email string, password string) error {
 	if resp.StatusCode != 200 {
 		return fmt.Errorf("Login Error: %s", resp.Status)
 	}
-	return nil
-}
-
-func (this *Shashokuru) PrintBentoList() error {
-	req, err := http.NewRequest("GET", URL+PRODUCT_PATH, nil)
-	if err != nil {
-		return err
-	}
-
-	resp, err := this.client.Do(req)
-	defer resp.Body.Close()
-	if err != nil {
-		return err
-	}
-
-	doc, err := goquery.NewDocumentFromResponse(resp)
-	if err != nil {
-		return err
-	}
-
-	doc.Find(".wrapper").Each(func(_ int, selection *goquery.Selection) {
-		fmt.Println("title: ", selection.Find(".title").Text())
-		fmt.Println("price: ", selection.Find(".price").Text())
-	})
 	return nil
 }
 
