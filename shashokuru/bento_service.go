@@ -7,9 +7,10 @@ import (
 )
 
 type Bento struct {
-	Title    string `json:"name"`
-	Price    string `json:"price"`
-	ImageUrl string `json:"image_url"`
+	Title      string `json:"name"`
+	Price      string `json:"price"`
+	ImageUrl   string `json:"image_url"`
+	ReserveUrl string `json:"reserve_url"`
 }
 
 type BentoService struct {
@@ -40,10 +41,14 @@ func (this *BentoService) GetListOnDate(date time.Time) ([]Bento, error) {
 
 	bentoList := []Bento{}
 	doc.Find(".wrapper").Each(func(_ int, selection *goquery.Selection) {
+		imageUrl, _ := selection.Find("img").Attr("src")
+		reserveUrl, _ := selection.Find("a.btn-a").Attr("href")
+
 		bentoList = append(bentoList, Bento{
-			Title: selection.Find(".title").Text(),
-			Price: selection.Find(".price").Text(),
-			//TODO: ImageUrl
+			Title:      selection.Find(".title").Text(),
+			Price:      selection.Find(".price").Text(),
+			ImageUrl:   imageUrl,
+			ReserveUrl: reserveUrl,
 		})
 	})
 
