@@ -9,6 +9,7 @@ import (
 type Bento struct {
 	Title      string `json:"name"`
 	Price      string `json:"price"`
+	Store      string `json:"store"`
 	ImageUrl   string `json:"image_url"`
 	ReserveUrl string `json:"reserve_url"`
 }
@@ -47,6 +48,7 @@ func (this *BentoService) GetListOnDate(date time.Time) ([]Bento, error) {
 		bentoList = append(bentoList, Bento{
 			Title:      selection.Find(".title").Text(),
 			Price:      selection.Find(".price").Text(),
+			Store:      selection.Find(".store").Text(),
 			ImageUrl:   imageUrl,
 			ReserveUrl: reserveUrl,
 		})
