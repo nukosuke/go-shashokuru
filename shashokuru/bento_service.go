@@ -6,6 +6,8 @@ import (
 	"time"
 )
 
+const URL_DATE_FORMAT = "20060102"
+
 type Bento struct {
 	Title      string `json:"name"`
 	Price      string `json:"price"`
@@ -21,9 +23,10 @@ func NewBentoService(client *http.Client) *BentoService {
 	return &BentoService{client: client}
 }
 
-//TODO: return bentoList on param date
 func (this *BentoService) GetListOnDate(date time.Time) ([]Bento, error) {
-	req, err := http.NewRequest("GET", URL+PRODUCT_PATH, nil)
+	datePath := "/" + date.Format(URL_DATE_FORMAT)
+
+	req, err := http.NewRequest("GET", URL+PRODUCT_PATH+datePath, nil)
 	if err != nil {
 		return []Bento{}, err
 	}
