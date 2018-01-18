@@ -10,9 +10,11 @@ import (
 )
 
 const (
-	URL          = "https://shashokuru.jp"
-	LOGIN_PATH   = "/login"
-	PRODUCT_PATH = "/product"
+	URL                    = "https://shashokuru.jp"
+	LOGIN_PATH             = "/login"
+	PRODUCT_PATH           = "/product"
+	CART_PATH              = "/cart"
+	CART_CONFIRMATION_PATH = CART_PATH + "/confirmation"
 )
 
 type Shashokuru struct {
