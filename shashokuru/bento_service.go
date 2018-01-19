@@ -88,6 +88,10 @@ func (this *BentoService) Reserve(bento Bento, quantity int) error {
 // :bento: 詳細ページへ遷移
 func (this *BentoService) openDetail(bento Bento, quantity int) (url.Values, error) {
 	req, err := http.NewRequest("GET", bento.ReserveUrl, nil)
+	if err != nil {
+		return url.Values{}, err
+	}
+
 	resp, err := this.client.Do(req)
 	defer resp.Body.Close()
 	if err != nil {
